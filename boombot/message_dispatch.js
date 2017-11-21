@@ -26,8 +26,11 @@ function attachmentsHandler(id, attachments, state) {
 function messageTextHandler(id, message, state) {
   console.log(state)
 
-  if (message.toLowerCase() === "get started") {
+  if (message.toLowerCase() === "get started" || message.toLowerCase() === "help") {
     commands.start(id, message)
+  }
+  else if (message.toLowerCase() === "feedback") {
+    commands.askForFeedback(id)
   }
   else if (message.toLowerCase() === "./notifications") {
     commands.notifications.ask(id)
