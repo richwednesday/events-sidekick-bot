@@ -3,6 +3,7 @@
 module.exports = {
 	contribute: require('./feedback'),
 	create: require('./create'),
+	find: require('./find'),
 	location: require('./location'),
 	notifications: require('./notifications'),
 	search: require('./search'),

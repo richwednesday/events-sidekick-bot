@@ -14,6 +14,10 @@ function PostbackFilter(id, payload) {
 			commands.start(id)
 			break;
 
+		case "Find":
+			commands.find.launch(id)
+			break;
+
 		case "Search":
 			commands.search.getLocation(id)
 			break; 
@@ -65,6 +69,10 @@ function subFilter(id, payload) {
 		case "More Events":
 			commands.search.processNextPage(id, newload[1])
 			break;
+
+		case "DevType":
+			commands.find.processDevType(id, newload[1])
+			break
 
 		default:
 			console.log("Not finding the postback")

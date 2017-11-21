@@ -109,6 +109,8 @@ function generateWisdom(id) {
     '"Programming isn\'t about what you know; it\'s about what you can figure out." - Chris Pine',
     '"Keep your code absolutely simple. Keep looking at your functions and figure out how you simplify further." - John Romero',
     '"Deleted code is debugged code." - Jeff Sickel',
+    '"A user interface should be so simple that a beginner in an emergency can understand it within ten seconds." - Ted Nelson',
+    '"Learning to code is a motivational challenge, not a technical one." - Quincy Larson',
     '"People think that computer science is the art of geniuses but the actual reality is the opposite, just many people doing things that build on each other, like a wall of mini stones." − Donald Knuth',
   ]
 
@@ -119,7 +121,7 @@ function holdPatience(id) {
   messenger.sendTextMessage(id, "This may take a minute. Here's a programming " +
     "wisdom while you wait: ", (err, body) => {
 
-      messenger.sendTextMessage(id, generateWisdom())
+    messenger.sendTextMessage(id, generateWisdom())
   })
 
 }
@@ -130,7 +132,7 @@ module.exports = {
 		let element = [{content_type: "location"}]
 		messenger.sendQuickRepliesMessage(id, "Where do you live?\n\nTell us " +
 			"the name of your city or state, so we can find out what's " + 
-			"going down there...", element)
+			"going on there...", element)
 		store.setState(id, "Expecting users location")
 	},
 

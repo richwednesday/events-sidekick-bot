@@ -26,7 +26,7 @@ function attachmentsHandler(id, attachments, state) {
 function messageTextHandler(id, message, state) {
   console.log(state)
 
-  if (message.toLowerCase() === "get started") {
+  if (message.toLowerCase() === "get started" || message.toLowerCase() === "help") {
     commands.start(id, message)
   }
   else if (message.toLowerCase() === "./notifications") {
@@ -40,6 +40,9 @@ function messageTextHandler(id, message, state) {
   }
   else if (state === "Expecting users location") {
     commands.location(id, message)
+  }
+  else if (state === "Type of developer") {
+    commands.find.processDevType(id, message)
   }
   else if (state === "Expecting user Feedback") {
     commands.feeback.thankForFeedback(id)
