@@ -4,7 +4,7 @@ const store = require('../boombot/store')
 
 module.exports = {
 	ask(id) {
-		store.checkIfSubscribed(state => {
+		store.checkIfSubscribed(id, (state) => {
 			if (state) {
 				let elements = [{content_type: 'text', title: 'Yes, stop', payload: 'Stop Letters'},
 				     {content_type: 'text', title: 'No, continue', payload: 'Continue Letters'}]
