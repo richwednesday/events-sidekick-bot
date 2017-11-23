@@ -63,7 +63,12 @@ function rollOutEvents(id, data) {
         type: "web_url",
         url: event.link,
         title: "Link to Event"
-      }, {     
+      }, {
+        type: "postback",
+        payload: event.description.length < 630 ? `DESC${event.description}` :
+          `DESC${event.description.slice(0, 630)}...`,
+        title: "Short Description"
+      }, { 
         type: "element_share"
       }]         	
   	})
@@ -174,7 +179,11 @@ module.exports = {
 			location ? this.processCoordinates(id, JSON.parse(location)) :
 				this.getLocation(id)	 
 		})
-	}
+	},
+
+  eventDescription(id, desc) {
+    messenger.sendTextMessage(id, desc)
+  }
 
 } 
 
