@@ -43,8 +43,8 @@ PersistentMenu = {
             },
             {
               type: 'postback',
-              title: 'Feedback',
-              payload: '🔦 Feedback'
+              title: '🔦 Feedback',
+              payload: 'Feedback'
             }
           ]
         }

@@ -24,9 +24,9 @@ function noEventsRoll(id) {
       
       messenger.sendTextMessage(id, "We have saved your location anyway and " +
         "would link you up with other developers we find in this location, " +
-        "maybe you guys can start a meetup... 😉", (err, reply) => {
+        "and maybe you guys can start a meetup... 😉", (err, reply) => {
 
-          let text = "For now, you can check events in another location.";
+          let text = "For now, you can check events in a different location.";
           messenger.sendQuickRepliesMessage(id, text, elements)
       })
   })
@@ -50,7 +50,7 @@ function generatePic() {
 function rollOutEvents(id, data) {
   let events = data.events
   let nextPage = data.nextPage
-  console.log(nextPage)
+
   let elements = [];
   let noPic = generatePic()
 
@@ -65,9 +65,11 @@ function rollOutEvents(id, data) {
         title: "Link to Event"
       }, {
         type: "postback",
-        payload: event.description.length < 630 ? `DESC${event.description}` :
-          `DESC${event.description.slice(0, 630)}...`,
-        title: "Short Description"
+        payload: event.description ? 
+          event.description.length < 630 ? `DESC${event.description}` :
+          `DESC${event.description.slice(0, 630)}...`
+          : event.description,
+        title: "Description"
       }, { 
         type: "element_share"
       }]         	
@@ -79,6 +81,10 @@ function rollOutEvents(id, data) {
       title: "Show More Events",
       image_url: process.env.MORE_EVENTS_PIC,
       buttons: [{
+        type: "postback",
+        title: "Give Feedback",
+        payload: "Feedback"
+      }, {
         type: "postback",
         title: "More Events",
         payload: `More Events,${nextPage}`
@@ -182,7 +188,9 @@ module.exports = {
 	},
 
   eventDescription(id, desc) {
-    messenger.sendTextMessage(id, desc)
+    desc.length ? messenger.sendTextMessage(id, desc) :
+      messenger.sendTextMessage(id, "Sorry, there is no description for this " +
+        "event. Please visit the link to find out more.")
   }
 
 } 

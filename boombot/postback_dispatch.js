@@ -48,7 +48,7 @@ function PostbackFilter(id, payload) {
 
 		default:
 			if (payload.slice(0, 4) === "DESC") {
-				commands.search.eventDescription(id, payload.slice(5))
+				commands.search.eventDescription(id, payload.slice(4))
 			}
 			else subFilter(id, payload)
 			break;

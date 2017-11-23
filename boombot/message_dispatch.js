@@ -45,7 +45,7 @@ function messageTextHandler(id, message, state) {
     commands.location(id, message)
   }
   else if (state === "Expecting user Feedback") {
-    commands.feeback.thankForFeedback(id)
+    commands.feedback.thankForFeedback(id)
   }
   else {
     defaultText(id)
