@@ -6,21 +6,32 @@ const fetch = require('node-fetch')
 const sendRequest = function(endpoint, cb) {
 	fetch(`${process.env.CORE_URL}${endpoint}`)
 		.then(res => res.json())
-	    .then(json => cb(null, json))
-	    .catch(err => {
-	    	console.log(err)
-	    	cb (err)
-	    })
+    .then(json => cb(null, json))
+    .catch(err => {
+    	console.log(err)
+    	cb (err)
+    })
 }
 
 function noEventsRoll(id) {
   let elements = [{
     content_type: 'text',
-    title: 'Search Another Location',
+    title: 'Search New Location',
     payload: 'Search'
   }]
-  messenger.sendQuickRepliesMessage(id, "Sorry, we cannot find any developer event in " +
-    "your location.", elements)
+  messenger.sendTextMessage(id, "Sorry, we cannot find any developer event in " +
+    "your location.", (err, reply) => {
+      
+      messenger.sendTextMessage(id, "We have saved your location anyway and " +
+        "would link you up with other developers we find in this location, " +
+        "maybe you guys can start a meetup... 😉", (err, reply) => {
+
+          let text = "For now, you can check events in another location.";
+          messenger.sendQuickRepliesMessage(id, text, elements)
+      })
+  })
+
+  // store.saveLocation
 }
 
 
@@ -39,6 +50,7 @@ function generatePic() {
 function rollOutEvents(id, data) {
   let events = data.events
   let nextPage = data.nextPage
+  console.log(nextPage)
   let elements = [];
   let noPic = generatePic()
 
