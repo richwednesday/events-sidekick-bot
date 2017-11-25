@@ -191,6 +191,30 @@ module.exports = {
     desc.length ? messenger.sendTextMessage(id, desc) :
       messenger.sendTextMessage(id, "Sorry, there is no description for this " +
         "event. Please visit the link to find out more.")
+  },
+
+  topicEvents(id) {
+    let elements = [
+    {"content_type": "text", "title": "Machine Learning", "payload": "Topic,Machine Learning"}, 
+    {"content_type": "text", "title": "Python", "payload": "Topic,Python"},
+    {"content_type": "text", "title": "JavaScript", "payload": "Topic,JavaScript"},
+    {"content_type": "text", "title": "AI", "payload": "Topic,AI"},
+    {"content_type": "text", "title": "Android", "payload": "Topic,Android"},
+    {"content_type": "text", "title": "AR/VR", "payload": "Topic,AR/VR"},
+    {"content_type": "text", "title": "Wordpress", "payload": "Topic,Wordpress"},
+    {"content_type": "text", "title": "Mobile", "payload": "Topic,Mobile"},
+    {"content_type": "text", "title": "Kotlin", "payload": "Topic,Kotlin"},
+    {"content_type": "text", "title": "Bitcoin", "payload": "Topic,Bitcoin"},
+    {"content_type": "text", "title": "Startup", "payload": "Topic,Startup"},
+    ]
+    messenger.sendQuickRepliesMessage(id, "Please select a topic or type a topic " +
+      "you want to search for", elements)
+    store.setState(id, "Expecting event topic")
+  },
+
+  processTopic(id, topic) {
+    store.setState(id, "Got Event Topic")
+    console.log(topic)
   }
 
 } 

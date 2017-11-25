@@ -47,6 +47,9 @@ function messageTextHandler(id, message, state) {
   else if (state === "Expecting user Feedback") {
     commands.feedback.thankForFeedback(id)
   }
+  else if (state === "Expecting event topic") {
+    commands.search.processTopic(id, message)
+  }
   else {
     defaultText(id)
   }

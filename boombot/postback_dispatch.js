@@ -22,6 +22,10 @@ function PostbackFilter(id, payload) {
 			commands.search.spoolEvents(id)
 			break;
 
+		case "Topic":
+			commands.search.topicEvents(id)
+			break;
+
 		case "Create":
 			commands.create(id)
 			break;
@@ -67,6 +71,10 @@ function subFilter(id, payload) {
 
 		case "More Events":
 			commands.search.processNextPage(id, newload[1])
+			break;
+
+		case "Topic":
+			commands.search.processTopic(id, newload[1])
 			break;
 
 		default:
