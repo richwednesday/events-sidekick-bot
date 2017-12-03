@@ -4,6 +4,24 @@ const FBMessenger = require('../ui/messenger')
 const messenger = new FBMessenger(process.env.FB_PAGE_TOKEN)
 const store = require('../boombot/store')
 
+let yesReplies = ["yes", "yea", "yup", "ya", "yep", "yaaaaas", "totally", "totes",
+  "sure", "you bet", "for sure", "sure thing", "certainly", "definitely", "yeah",
+  "of course", "gladly", "indubitably", "absolutely", "indeed", "undoubtedly", "aye"]
+let noReplies = ["no", "nope", "naa", "nah", "neh", "nay", "at all", "not at all",
+  "negative", "Uhn Uhn", "no way"]
+
+function helpFunction(id) {
+  messenger.sendTextMessage(id, "Type 👉 ./events to see your developer events,", (e, r) => {
+    messenger.sendTextMessage(id, "👉 ./create to create a developer event,", (e, r) => {
+      messenger.sendTextMessage(id, "👉 ./notifications to manage your notifications,", (e, r) => {
+        messenger.sendTextMessage(id, "👉 ./help to land here", (e, r) => {
+          messenger.sendTextMessage(id, "and 👉 ./feedback to help this bot get better.")    
+        })
+      })
+    })    
+  })
+}
+
 function defaultText(id) {
   let elements = [{
     content_type: 'text',
@@ -12,6 +30,7 @@ function defaultText(id) {
   }]
   messenger.sendQuickRepliesMessage(id, "Not sure what that means.\n\n" +
     "Do you want to see the Developer Events in your location?", elements)
+  store.setState(id, "Asking to spool")
 }
 
 function attachmentsHandler(id, attachments, state) {
@@ -26,10 +45,10 @@ function attachmentsHandler(id, attachments, state) {
 function messageTextHandler(id, message, state) {
   console.log(state)
 
-  if (message.toLowerCase() === "get started" || message.toLowerCase() === "help") {
+  if (message.toLowerCase() === "get started") {
     commands.start(id, message)
   }
-  else if (message.toLowerCase() === "feedback") {
+  else if (message.toLowerCase() === "./feedback") {
     commands.askForFeedback(id)
   }
   else if (message.toLowerCase() === "./notifications") {
@@ -41,6 +60,11 @@ function messageTextHandler(id, message, state) {
   else if (message.toLowerCase() === "./create") {
     commands.create(id)
   }
+
+  else if (/help/i.test(message)) {
+    helpFunction(id)
+  }
+
   else if (state === "Expecting users location") {
     commands.location(id, message)
   }
@@ -50,6 +74,41 @@ function messageTextHandler(id, message, state) {
   else if (state === "Expecting event topic") {
     commands.search.processTopic(id, message)
   }
+
+  else if (state === "Notications for subscriber") {
+    if (new RegExp(yesReplies.join("|")).test(message, 'i') ) {
+      commands.notifications.stop(id)
+    }
+    else if (new RegExp(noReplies.join("|")).test(message, 'i') ) {
+      commands.notifications.resume(id)
+    }
+    else {
+      messenger.sendTextMessage(id, "Please reply with yes or no")
+    }
+  }
+  else if (state === "Notications for non subscriber") {
+    if (new RegExp(yesReplies.join("|")).test(message, 'i') ) {
+      commands.notifications.start(id)
+    }
+    else if (new RegExp(noReplies.join("|")).test(message, 'i') ) {
+      commands.notifications.stop(id)
+    }
+    else {
+      messenger.sendTextMessage(id, "Please reply with yes or no")
+    }
+  }
+  else if (state === "Asking to spool") {
+    if (new RegExp(yesReplies.join("|")).test(message, 'i') ) {
+      commands.search.spoolEvents(id)
+    }
+    else if (new RegExp(noReplies.join("|")).test(message, 'i') ) {
+      helpFunction(id)
+    }
+    else {
+      messenger.sendTextMessage(id, "Please reply with yes or no")
+    }
+  }
+
   else {
     defaultText(id)
   }

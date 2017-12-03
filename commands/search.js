@@ -13,7 +13,7 @@ const sendRequest = function(endpoint, cb) {
     })
 }
 
-function noEventsRoll(id) {
+function noEventsRoll(id, coordinates) {
   let elements = [{
     content_type: 'text',
     title: 'Search New Location',
@@ -22,16 +22,14 @@ function noEventsRoll(id) {
   messenger.sendTextMessage(id, "Sorry, we cannot find any developer event in " +
     "your location.", (err, reply) => {
       
-      messenger.sendTextMessage(id, "We have saved your location anyway and " +
+      messenger.sendTextMessage(id, "We have saved your location and " +
         "would link you up with other developers we find in this location, " +
-        "and maybe you guys can start a meetup... 😉", (err, reply) => {
+        "and we believe you can start a meetup... 😉", (err, reply) => {
 
-          let text = "For now, you can check events in a different location.";
+          let text = "For now, you can check events in another location.";
           messenger.sendQuickRepliesMessage(id, text, elements)
       })
   })
-
-  // store.saveLocation
 }
 
 
@@ -62,13 +60,13 @@ function rollOutEvents(id, data) {
     	buttons: [{
         type: "web_url",
         url: event.link,
-        title: "Link to Event"
+        title: "Register"
       }, {
         type: "postback",
         payload: event.description ? 
           event.description.length < 630 ? `DESC${event.description}` :
           `DESC${event.description.slice(0, 630)}...`
-          : event.description,
+          : `DESC${event.description}`,
         title: "Description"
       }, { 
         type: "element_share"
@@ -102,11 +100,11 @@ function notificationsAsk (id) {
     "payload": "Start Letters"
   }, {
     "content_type": "text",
-    "title": "No",
+    "title": "Not interested",
     "payload": "Stop Letters"
   }]
-  let text = "Do you want to receive the Weekend Devloper Events just " +
-    "like this one? \n\nYou can modify your settings by typing ./notifications"
+  let text = "If you'd like, we could send you weekend updates of upcoming events." +
+    "\n\nYou can modify your settings by typing ./notifications"
   
   store.checkIfSubscribed(id, (subscribed) => {
     if (subscribed) return;
@@ -139,12 +137,20 @@ function generateWisdom(id) {
 }
 
 function holdPatience(id) {
-  messenger.sendTextMessage(id, "This may take a minute. Here's a programming " +
+  messenger.sendTextMessage(id, "This may take a minute. Here's some programming " +
     "wisdom while you wait: ", (err, body) => {
 
       messenger.sendTextMessage(id, generateWisdom())
   })
 
+}
+
+function saveUserLocation(id, coordinates) {
+  let endpoint = `/users/location?masterKey=${process.env.CORE_API_KEY}&uid=${id}&geo=${coordinates.lat},${coordinates.long}`
+  sendRequest(endpoint, (err, body) => {
+    if (err) console.log(err) 
+    else console.log(body)
+  })
 }
 
 
@@ -170,13 +176,15 @@ module.exports = {
 			long: coordinates.long
 		}))
 		store.setState(id, "Got users location")
+
+    saveUserLocation(id, coordinates)
 	},
 
   processNextPage(id, pageID) {
     let endpoint = `/events/page?masterKey=${process.env.CORE_API_KEY}&pageID=${pageID}`;
     sendRequest(endpoint, (err, body) => {
-      if (err) return messenger.sendTextMessage(id, "Oops an error occured, 505")
-      rollOutEvents(id, body);
+      if (err) spoolEvents(id)
+      else rollOutEvents(id, body)
     })
   },
 

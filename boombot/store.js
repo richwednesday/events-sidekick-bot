@@ -12,7 +12,10 @@ module.exports = {
 
 	getState(id, cb) {
 		client.get(id, (err, reply) => {
-			if (err) console.log(err)
+			if (err) {
+				console.log(err)
+				cb(null)
+			}
 			cb(reply)
 		})
 	},
@@ -23,7 +26,10 @@ module.exports = {
 
 	getLocation(id, cb) {
 		client.get(`${id}-location`, (err, reply) => {
-			if (err) console.log(err)
+			if (err) {
+				console.log(err)
+				cb(null)
+			}
 			cb(reply)
 		})	
 	},
