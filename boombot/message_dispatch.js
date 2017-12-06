@@ -75,10 +75,10 @@ function messageTextHandler(id, message, state) {
   }
 
   else if (state === "Notications for subscriber") {
-    if (new RegExp(yesReplies.join("|")).test(message, 'i') ) {
+    if (new RegExp(yesReplies.join("|"), 'i').test(message)) {
       commands.notifications.stop(id)
     }
-    else if (new RegExp(noReplies.join("|")).test(message, 'i') ) {
+    else if (new RegExp(noReplies.join("|"), 'i').test(message)) {
       commands.notifications.resume(id)
     }
     else {
@@ -86,10 +86,10 @@ function messageTextHandler(id, message, state) {
     }
   }
   else if (state === "Notications for non subscriber") {
-    if (new RegExp(yesReplies.join("|")).test(message, 'i') ) {
+    if (new RegExp(yesReplies.join("|"), 'i').test(message)) {
       commands.notifications.start(id)
     }
-    else if (new RegExp(noReplies.join("|")).test(message, 'i') ) {
+    else if (new RegExp(noReplies.join("|"), 'i').test(message)) {
       commands.notifications.stop(id)
     }
     else {
@@ -97,10 +97,10 @@ function messageTextHandler(id, message, state) {
     }
   }
   else if (state === "Asking to spool") {
-    if (new RegExp(yesReplies.join("|")).test(message, 'i') ) {
+    if (new RegExp(yesReplies.join("|"), 'i').test(message)) {
       commands.search.spoolEvents(id)
     }
-    else if (new RegExp(noReplies.join("|")).test(message, 'i') ) {
+    else if (new RegExp(noReplies.join("|"), 'i').test(message)) {
       helpFunction(id)
     }
     else {
