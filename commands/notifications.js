@@ -41,5 +41,6 @@ module.exports = {
 	start(id) {
 		messenger.sendTextMessage(id, "Yes!!, you have been added to the list.")
 		store.addSubscriber(id)
+		store.setState(id, "Release state")
 	}	
 }

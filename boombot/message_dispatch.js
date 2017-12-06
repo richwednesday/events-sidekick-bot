@@ -10,17 +10,32 @@ let yesReplies = ["yes", "yea", "yup", "ya", "yep", "yaaaaas", "totally", "totes
 let noReplies = ["no", "nope", "naa", "nah", "neh", "nay", "at all", "not at all",
   "negative", "Uhn Uhn", "no way"]
 
-function helpFunction(id) {
-  messenger.sendTextMessage(id, "Type 👉 ./events to see your developer events,", (e, r) => {
-    messenger.sendTextMessage(id, "👉 ./create to create a developer event,", (e, r) => {
-      messenger.sendTextMessage(id, "👉 ./notifications to manage your notifications,", (e, r) => {
-        messenger.sendTextMessage(id, "👉 ./help to land here", (e, r) => {
-          messenger.sendTextMessage(id, "and 👉 ./feedback to help this bot get better.")    
+let ai = {
+  provideHelp(id) {
+    messenger.sendTextMessage(id, "Type 👉 ./events to see your developer events,", (e, r) => {
+      messenger.sendTextMessage(id, "👉 ./create to create a developer event,", (e, r) => {
+        messenger.sendTextMessage(id, "👉 ./notifications to manage your notifications,", (e, r) => {
+          messenger.sendTextMessage(id, "👉 ./help to land here", (e, r) => {
+            messenger.sendTextMessage(id, "and 👉 ./feedback to help this bot get better.")    
+          })
         })
-      })
-    })    
-  })
+      })    
+    })
+  },
+
+  sayGoodbye(id) {
+    messenger.sendTextMessage(id, "Bye, bye!")
+  },
+
+  noProfanity(id) {
+    messenger.sendTextMessage(id, "Uh...rude.")
+  },
+
+  lovelyWord(id) {
+    messenger.sendTextMessage(id, "Glad you love this. Please share with your friends lets grow the developers network.")
+  }
 }
+
 
 function defaultText(id) {
   let elements = [{
@@ -47,22 +62,6 @@ function messageTextHandler(id, message, state) {
 
   if (message.toLowerCase() === "get started") {
     commands.start(id, message)
-  }
-  else if (message.toLowerCase() === "./feedback") {
-    commands.askForFeedback(id)
-  }
-  else if (message.toLowerCase() === "./notifications") {
-    commands.notifications.ask(id)
-  }
-  else if (message.toLowerCase() === "./events") {
-    commands.search.spoolEvents(id)
-  }
-  else if (message.toLowerCase() === "./create") {
-    commands.create(id)
-  }
-
-  else if (/help/i.test(message)) {
-    helpFunction(id)
   }
 
   else if (state === "Expecting users location") {
@@ -108,6 +107,22 @@ function messageTextHandler(id, message, state) {
       messenger.sendTextMessage(id, "Please reply with yes or no")
     }
   }
+
+  else if (/feedback/i.test(message)) commands.askForFeedback(id)
+  else if (/notification/i.test(message)) commands.notifications.ask(id)
+  else if (/events/i.test(message)) commands.search.spoolEvents(id)
+  else if (/create/i.test(message)) commands.create(id)
+
+
+  else if (/help/i.test(message)) ai.provideHelp(id)
+
+  else if (/love/i.test(message)) ai.lovelyWord(id)
+
+  else if (/brb/i.test(message)) ai.sayGoodbye(id)
+  else if (/bye/i.test(message)) ai.sayGoodbye(id)
+  else if (/later/i.test(message)) ai.sayGoodbye(id)
+
+  else if (/fuck/i.test(message)) ai.noProfanity(id)
 
   else {
     defaultText(id)
