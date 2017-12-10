@@ -1,10 +1,15 @@
 'use strict'
 require('dotenv').config()
 
+const child_process = require("child_process");
 const bodyParser = require('body-parser');
 const crypto = require('crypto');
 const express = require('express');
 const Boombot = require('./boombot/boombot')
+
+
+console.log("Launching cron service...");
+child_process.fork("cron.js", ['FORKED']);
 
 // Enable "Get Started" button, greeting and persistent menu for your bot
 // Can uncomment this code to set it

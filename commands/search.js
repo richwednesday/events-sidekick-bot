@@ -163,20 +163,28 @@ module.exports = {
 		store.setState(id, "Expecting users location")
 	},
 
+  sendEvents(id, coordinates) {
+    let endpoint = `/events/location?masterKey=${process.env.CORE_API_KEY}&geo=${coordinates.lat},${coordinates.long}`
+    sendRequest(endpoint, (err, body) => {
+      if (err) return messenger.sendTextMessage(id, "Oops an error occured, 505")
+      body.events.length ? rollOutEvents(id, body) : noEventsRoll(id)
+    })
+  },
+
+  sendSubscribedMessage(id) {
+    messenger.sendTextMessage(id, "Developer Events... Coming right up.\n" +
+      "Enough with the coding, time to get up and go out :)")
+  },
+
 	processCoordinates(id, coordinates) {
     holdPatience(id)
+		this.sendEvents(id, coordinates)
 
-		let endpoint = `/events/location?masterKey=${process.env.CORE_API_KEY}&geo=${coordinates.lat},${coordinates.long}`
-		sendRequest(endpoint, (err, body) => {
-			if (err) return messenger.sendTextMessage(id, "Oops an error occured, 505")
-			body.events.length ? rollOutEvents(id, body) : noEventsRoll(id)
-		})
 		store.setLocation(id, JSON.stringify({
 			lat: coordinates.lat, 
 			long: coordinates.long
 		}))
-		store.setState(id, "Got users location")
-
+	  store.setState(id, "Got users location")
     saveUserLocation(id, coordinates)
 	},
 
