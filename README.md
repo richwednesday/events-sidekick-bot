@@ -1,6 +1,7 @@
-# Events SideKick Bot
+# Developer Events Bot
 Code Repository for the Developer Events Chatbot on Facebook Messenger
 
-[Talk to DEB on Messenger](http://m.me/developerevents/)
+[Talk to Bot on Messenger](http://m.me/developerevents/)
 
-This chatbot uses the Boombot boilerplate [here](https://github.com/richwednesday/boombot-boilerplate)
+This Chatbot was built using the [Boombot boilerplate](https://github.com/richwednesday/boombot-boilerplate).
+Please contribute to the repository.
