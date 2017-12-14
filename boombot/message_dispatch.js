@@ -33,6 +33,10 @@ let ai = {
 
   lovelyWord(id) {
     messenger.sendTextMessage(id, "Glad you love this. Please share with your friends lets grow the developers network.")
+  },
+
+  okayTimes(id) {
+    messenger.sendTextMessage(id, "👍")
   }
 }
 
@@ -117,6 +121,8 @@ function messageTextHandler(id, message, state) {
   else if (/help/i.test(message)) ai.provideHelp(id)
 
   else if (/love/i.test(message)) ai.lovelyWord(id)
+
+  else if (/ok/i.test(message)) ai.okayTimes(id)
 
   else if (/brb/i.test(message)) ai.sayGoodbye(id)
   else if (/bye/i.test(message)) ai.sayGoodbye(id)
