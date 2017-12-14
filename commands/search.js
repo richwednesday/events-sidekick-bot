@@ -198,7 +198,7 @@ module.exports = {
 
 	spoolEvents(id) {
 		store.getLocation(id, (location) => {
-			location ? this.processCoordinates(id, JSON.parse(location)) :
+			location ? this.sendEvents(id, JSON.parse(location)) :
 				this.getLocation(id)	 
 		})
 	},
