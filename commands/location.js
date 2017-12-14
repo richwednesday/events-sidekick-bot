@@ -26,7 +26,7 @@ module.exports = function(id, location) {
 			    messenger.sendQuickRepliesMessage(id, text, elements)
 			}
 
-			else if (items.length === 1) {
+			else if (items.length >= 1) {
 				processCoordinates(id, {lat: items[0].geometry.lat, long: items[0].geometry.lng})
 			}
 
