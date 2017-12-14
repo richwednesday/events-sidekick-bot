@@ -12,10 +12,10 @@ module.exports = function(id, location) {
 		}).then(function(json) {
 			let items = json.results;
 		    let elements = [];
-		    let text = "Hmm...can you be more specific? Or you can try typing " +
+		    let text = "Hmm...please be more specific? Or you can try typing " +
 			    "the name of a nearby city."
 
-		    if (items.length > 1) {
+		    if (items.length > 2) {
 			    for (let item of items) {
 			    	elements.push({
 			    		content_type: "text",
