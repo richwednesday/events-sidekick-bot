@@ -201,6 +201,7 @@ module.exports = {
 			location ? this.sendEvents(id, JSON.parse(location)) :
 				this.getLocation(id)	 
 		})
+    store.setState(id, "About to spool")
 	},
 
   eventDescription(id, desc) {

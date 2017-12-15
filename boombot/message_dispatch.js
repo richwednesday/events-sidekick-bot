@@ -105,7 +105,7 @@ function messageTextHandler(id, message, state) {
       commands.search.spoolEvents(id)
     }
     else if (new RegExp(noReplies.join("|"), 'i').test(message)) {
-      helpFunction(id)
+      ai.provideHelp(id)
     }
     else {
       messenger.sendTextMessage(id, "Please reply with yes or no")
