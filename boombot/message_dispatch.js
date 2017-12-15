@@ -121,6 +121,7 @@ function messageTextHandler(id, message, state) {
   else if (/help/i.test(message)) ai.provideHelp(id)
 
   else if (/love/i.test(message)) ai.lovelyWord(id)
+  else if (/nice/i.test(message)) ai.lovelyWord(id)
 
   else if (/ok/i.test(message)) ai.okayTimes(id)
 
