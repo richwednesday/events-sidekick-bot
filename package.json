@@ -1,5 +1,5 @@
 {
-  "name": "Events-Bot",
+  "name": "events-bot",
   "version": "1.0.0",
   "description": "A boilerplate to develop Messenger bots in Node.js and Wit.ai",
   "main": "app.js",
