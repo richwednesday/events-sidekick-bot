@@ -154,7 +154,7 @@ function saveUserLocation(id, coordinates) {
 }
 
 
-module.exports = {
+let orb = {
 	getLocation(id) {
 		let element = [{content_type: "location"}]
 		messenger.sendQuickRepliesMessage(id, "Where do you live?\n\nTell us " +
@@ -178,7 +178,7 @@ module.exports = {
 
 	processCoordinates(id, coordinates) {
     holdPatience(id)
-		this.sendEvents(id, coordinates)
+		orb.sendEvents(id, coordinates)
 
 		store.setLocation(id, JSON.stringify({
 			lat: coordinates.lat, 
@@ -198,8 +198,8 @@ module.exports = {
 
 	spoolEvents(id) {
 		store.getLocation(id, (location) => {
-			location ? this.sendEvents(id, JSON.parse(location)) :
-				this.getLocation(id)	 
+			location ? orb.sendEvents(id, JSON.parse(location)) :
+				orb.getLocation(id)	 
 		})
     store.setState(id, "About to spool")
 	},
@@ -235,6 +235,8 @@ module.exports = {
   }
 
 } 
+
+module.exports = orb
 
 
 
