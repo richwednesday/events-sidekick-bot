@@ -51,6 +51,8 @@ module.exports = {
 
 	checkIfSubscribed(id, cb) {
 		this.getSubscribers(reply => {
+			console.log(reply)
+			
 			reply.indexOf(id) >= 0 ? cb(true) : cb(false) 
 		})
 	}

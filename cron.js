@@ -4,6 +4,8 @@ const search = require('./commands/search')
 
 const eventsSchedule = schedule.scheduleJob('15 42 6 * * 6', () => {
   store.getSubscribers(reply => {
+    console.log(reply)
+    
     reply.forEach(id => {
       store.getLocation(id, (location) => {
         if (location) {
