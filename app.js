@@ -25,6 +25,8 @@ app.use(bodyParser.json())
 
 
 app.post('/webhook', (req, res) => {
+  console.log(req.body)
+  
   let data = req.body;
 
   if (data.object == 'page') {    
