@@ -23,10 +23,14 @@ const PORT = process.env.PORT
 const app = express();
 app.use(bodyParser.json())
 
+app.get('/webhook', (req, res) => {
+  console.log("redirect with a get")
+  console.log(req)
+})
 
 app.post('/webhook', (req, res) => {
   console.log(req.body)
-  
+
   let data = req.body;
 
   if (data.object == 'page') {    
