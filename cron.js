@@ -4,6 +4,7 @@ const search = require('./commands/search')
 
 
 // schedule.scheduleJob('15 42 6 * * 6', () => {
+setTimeout(() => {
   store.getSubscribers(reply => {
     console.log(reply)
     
@@ -19,5 +20,5 @@ const search = require('./commands/search')
       }) 
     })
   }) 	
-// });
+}, 5000);
 
